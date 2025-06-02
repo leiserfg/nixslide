@@ -1,236 +1,85 @@
-#import "@preview/touying-flow:1.2.0":*
+#import "@preview/touying-flow:1.2.0": *
+#import "@preview/codly-languages:0.1.8": codly-languages
+
+
+#let new-section-with-bar(
+  config: (:),
+  level: 1,
+  numbered: true,
+  body,
+) = touying-slide-wrapper(self => {
+  let slide-body = {
+    set std.align(horizon)
+    show: pad.with(20%)
+    set text(size: 1.5em, fill: self.colors.primary, weight: "bold")
+    stack(
+      dir: ttb,
+      spacing: .65em,
+      utils.display-current-heading(level: level, numbered: numbered),
+      block(height: 2pt, width: 100%, spacing: 0pt, components.progress-bar(
+        height: 2pt,
+        self.colors.primary,
+        self.colors.primary-light,
+      )),
+    )
+    body
+  }
+  touying-slide(self: self, config: config, slide-body)
+})
+
 #show: flow-theme.with(
   aspect-ratio: "16-9",
   footer: self => self.info.title,
   footer-alt: self => self.info.subtitle,
   navigation: "mini-slides",
-  primary:rgb("#5277C3"),
-  secondary:rgb("#7EBAE4"),
-  text-font: ("Libertinus Serif"),
-  text-size: 20pt,
-  code-font: ("Iosevka SS15"),
-  code-size: 16pt,
+  primary: rgb("#5277C3"),
+  secondary: rgb("#7EBAE4"),
+  text-font: "Libertinus Serif",
+  // text-size: 20pt,
+  code-font: "Iosevka Term SS15",
+  // code-size: 16pt,
 
   config-info(
-    title: [Nix],
-    subtitle: [Subtitle],
+    title: [Software Reproducibility],
+    subtitle: [with Docker],
     author: [leiserfg],
-    // date: datetime.today(),
-    // institution: [USTC],
+    institution: [shore GmbH],
   ),
-   // config-common(show-notes-on-second-screen: right),
+  config-common(
+    new-section-slide-fn: new-section-with-bar,
+    preamble: {
+      codly(zebra-fill: none, languages: codly-languages)
+    },
+    // show-notes-on-second-screen: right,
+  ),
 )
 
 #title-slide()
 
-// #outline()
-
-= #smallcaps("Slide")
+= #smallcaps("Software Reproducibility")
 
 == New slide
 
-```typ
-== New slide
+```Dockerfile
+FROM ubuntu:luna
+RUN apt update && apt install nodejs
 ```
 
+#title-slide(title: [Nix solves that], subtitle: [], author: [leiserfg])
 
-#pagebreak()
-
-=== page break
-```typ
-#pagebreak()
-```
-```typ
-#slide[
-
-]
-```
-
-== Slide with columns
-
-#slide[
-```typ
-#slide[
-
-][
-
-]
-```
-][
-```typ
-#slide[
-
-][
-
-][
-
-][
-
-][
-
-]
-```
-]
-
-== Columns with different weights
-#slide(composer: (1fr,3fr,1fr))[
-first column
-][
-```typ
-#slide(composer: (1fr,3fr,1fr))[
-
-][
-
-][
-
-][
-
-]
-```
-][
-third column
-]
-
-= #smallcaps("Layout")
-
-== Align
-
-#align(horizon)[
-  ```typ
-  #align(horizon)[
-
-  ]
-  ```
-]
-
-#align(bottom+end)[#link("https://typst.app/docs/reference/layout/align/")
-
-#link("https://typst.app/docs/reference/layout/alignment/")]
+= #smallcaps("What is this")
 
 
-== Side by side
-Don't want the entire page to follow a column layout? Try `#side-by-side` !
-#side-by-side[
-```typ
-#side-by-side[
-
-][
-
-]
-```
-][
-```typ
-#side-by-side[
-
-][
-
-][
-
-]
-```
-]
-Consider using `#side-by-side` for a more flexible layout.
-
-== Grid
-
-#grid(
-  columns: 3, //try columns: (1fr,2fr,60pt)
-  rows: 2,    //try rows: (1fr,2fr)
-  align: center+horizon,
-  gutter: 1em,
-  rect[#lorem(20)],
-  grid.cell(
-    colspan: 2,
-    [
-```typ
-#grid(
-  columns: 3, rows: 2, 
-  align: center+horizon, gutter: 1em,
-  [],[],grid.cell(colspan: 2,),[],[],
-  ),      
-```
-    ],
-  ),
-  [#lorem(20)],
-  rect[#lorem(20)],
-  [#lorem(20)]
-  )
-
-#align(bottom+end)[#link("https://typst.app/docs/reference/layout/grid/")]
-
-= #smallcaps("Content")
-
-== Text
-
-#side-by-side[
-=== Size
-```typst
-#set text(size: 1.5em)
-```
-][
-=== Font
-```typ
-#set text(font: "Times New Roman")
-```
-]
-
-#side-by-side[
-*Strong*
-```typ
-*Strong*
-```
-```typ
-#strong[Strong]
-```
-][
-_emphasis_
-```typ
-_emphasis_
-```
-```typ
-#emph[emphasis]
-```
-]
-
-== Image
-
-== Table
-
-
-
-== Code
-
-#side-by-side[
-//伪代码
-][
-
-]
-
-== Math
-
-=== 
-
-
-
-=== 
-
-#pagebreak()
-
-=== mi(``)
-
-=== mitex(``)
-
-=== mitext(``)
-
-= #smallcaps("Components")
-
-== 
-
-= #smallcaps("Tools")
-
-== Pympress
+== una
 
 #speaker-note[
   + This is a speaker note.
-  + You won't see it unless you use `config-common(show-notes-on-second-screen: right)`
+  + You won't see it unless you use
 ]
+
+Voz en off: it wasn't.
+
+
+= otra
+
+= otra más
