@@ -9,7 +9,8 @@
 {
   packages = [
     pkgs.tinymist
-    pkgs.pympress
+    pkgs.websocat
+        pkgs.pympress
   ];
 
   languages.typst = {
