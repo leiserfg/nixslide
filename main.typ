@@ -2,6 +2,7 @@
 #import "@preview/codly-languages:0.1.8": codly-languages
 
 
+
 #let new-section-with-bar(
   config: (:),
   level: 1,
@@ -27,6 +28,7 @@
   touying-slide(self: self, config: config, slide-body)
 })
 
+
 #show: flow-theme.with(
   aspect-ratio: "16-9",
   // footer: self => self.info.title,
@@ -50,16 +52,19 @@
     preamble: {
       codly(zebra-fill: none, languages: codly-languages, inset: 0.15em)
     },
-    // show-notes-on-second-screen: right,
+    show-notes-on-second-screen: right,
   ),
 )
 
 
 #title-slide()
 
+
 = #smallcaps("Mom, I want reproducibility!")
 
+
 == We have reproducibility
+
 
 ```Dockerfile
 FROM ubuntu:luna
@@ -67,17 +72,24 @@ RUN apt update && apt install python
 ENTRYPOINT python
 ```
 
+
 ```sh
 $ docker build . -t the_python
 $ docker run the_python --version
 > Python 3.12.10
 ```
 
+
 == At home ...
 
+
 #speaker-note[
+  Explain the slide
+
+  So that's how we achieve reproducibility in Docker...
   Or do we?
 ]
+
 
 ```sh
 $ docker build . -t the_python
@@ -85,13 +97,17 @@ $ docker run the_python --version
 > Python 3.13.2
 ```
 
+
 #title-slide(title: [Nix solves that], subtitle: [], author: [leiserfg])
 
-= #smallcaps("Look ma! with nix")
+
+= #smallcaps("Look ma! With Nix")
+
 
 == This time for real
 
-This is a `shell.nix` file.
+This is a `shell.nix` file:
+
 ```nix
 {
   pkgs ?
@@ -106,15 +122,19 @@ pkgs.mkShell {
 
 ===
 
+
 ```sh
 $ nix shell
 > python --version
 > Python 3.12.2
 ```
 
-= What is nix?
+
+= What is Nix?
+
 
 == Pure Functional Language
+
 
 ```nix
 let
@@ -126,12 +146,14 @@ in
 ```
 
 
+
 #speaker-note[
-  The language is pure, as the types are inmutables. As in, you can't modify, just create objects.
-  Also it does not have any direct secondary effects (file creation, edition ...)
+  The language is pure, as the types are immutable. That is, you can't modify, only create new objects.
+  Also, it does not have any direct side effects (file creation, editing, etc.).
 ]
 
 == Builder
+
 
 
 ```nix
@@ -143,21 +165,24 @@ derivation {
 }
 ```
 
+
 #speaker-note[
-  nix (the language) does not make the stuff, just describes how to build it, that is called a derivation.
+  Nix (the language) does not build things itself, it just describes how to build them. That is called a derivation.
 ]
 
 === Derivation
-- A receipt for building a set of files (not necesarily a binary).
+- A recipe for building a set of files (not necessarily a binary).
 - Enumerates other files that are dependencies.
-- Each output, including the derivation itself, is hashed so they make a merkle tree (like git or ₿)
-- They are instanciated (compiled) in a sandboxed environment.
+- Each output, including the derivation itself, is hashed so they form a Merkle tree (like git or ₿).
+- They are instantiated (built) in a sandboxed environment.
+
 
 == Package Manager
 
+
 ```nix
 { stdenv, fetchFromGitHub, gcc }:
-stdenv.mkDerivation rec{
+stdenv.mkDerivation rec {
   pname = "hello-c";
   version = "1.0.0";
   src = fetchFromGitHub {
@@ -175,29 +200,37 @@ stdenv.mkDerivation rec{
 }
 ```
 
+
 #figure(
   image("./map_repo_size_fresh.svg"),
-  caption: [Nixpkgs, in retopology #link("https://repology.org/repositories/graphs")],
+  caption: [Nixpkgs, in Repology #link("https://repology.org/repositories/graphs")],
 )
 
-#speaker-note[ asdf ]
+
+// #speaker-note[  ]
+
 
 = Made with Nix
 
 ==
 
-=== NixOs
-Linux distro using nixpkgs and where everithing is configured in nix (packages, services, users...)
+
+=== NixOS
+Linux distro using nixpkgs, where everything is configured in Nix (packages, services, users, etc.).
+
 
 === home-manager
-Tool to setup your home configuration and programs (works on nixos, plain linux and macos).
+Tool to set up your home configuration and programs (works on NixOS, plain Linux, and macOS).
+
 
 === darwin-nix
-Similar to nixos but on top of macos
+Similar to NixOS but on top of macOS.
+
 
 == Devenv
 
 Reproducible and declarative development environments.
+
 
 ```nix
 { pkgs, ... }:
@@ -205,11 +238,16 @@ Reproducible and declarative development environments.
   dotenv.enable = true;
   env.DD_TRACE_ENABLED = false;
 
-  packages = [ pkgs.gettext];
+  packages = [ pkgs.gettext ];
   language.elixir.enable = true;
   git-hooks.hooks = {
-    credo.enable = True;
-    mif-format.enable = True;
-  }
+    credo.enable = true;
+    mix-format.enable = true;
+  };
 }
 ```
+
+
+#focus-slide(text(size: 116pt)[Q&A])
+
+
